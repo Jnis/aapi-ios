@@ -95,7 +95,7 @@ static NSMutableSet			*aaExcludedPathsSet		= nil;
 
 + (NSString *)aaURLStringByInjectingAlterAPI:(NSString *)urlString {
 	BOOL hasHTTPScheme = [urlString hasPrefix:@"http"] || [urlString hasPrefix:@"https"];
-	if (nil != aaProjectId && YES == hasHTTPScheme) {
+	if (nil != aaProjectId && YES == hasHTTPScheme && NO == [urlString hasPrefix: aaAlterAPIRequestURL]) {
 		NSURL *originalURL = [[NSURL alloc] aaInitWithString:urlString relativeToURL:nil];
 		BOOL isHostExcluded = [self aaIsHostExcluded:originalURL.host];
 		BOOL isPathExcluded = [self aaIsPathExcluded:originalURL.path];

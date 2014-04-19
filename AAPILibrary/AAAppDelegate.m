@@ -30,7 +30,7 @@
 
 	// 3. exclude path
 	originalURLString = @"http://moqod2.com/users/authorization";
-	// [NSURL aaExcludePaths:@"/users/authorization", nil];
+	[NSURL aaExcludePaths:@"/users/authorization", nil];
 	url = [NSURL URLWithString:originalURLString];
 	NSLog(@"url == %@", url);
 	
