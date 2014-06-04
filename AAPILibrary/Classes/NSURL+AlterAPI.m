@@ -11,7 +11,7 @@
 #import <AdSupport/AdSupport.h>
 
 // temporary local address
-static NSString             *aaAlterAPIRequestURL	= @"http://10.0.1.17:3000/request";
+static NSString             *aaAlterAPIRequestURL	= @"http://s-aapi-io.milytia.org/request";
 
 // global variables
 static NSString             *aaProjectId			= nil;
@@ -69,7 +69,9 @@ static NSMutableSet			*aaExcludedPathsSet		= nil;
 #pragma mark - swizzled constructors
 
 - (id)aaInitWithString:(NSString *)URLString relativeToURL:(NSURL *)baseURL {
-	URLString = [[self class] aaURLStringByInjectingAlterAPI:URLString];
+    if (![URLString hasPrefix:aaAlterAPIRequestURL]) {
+        URLString = [[self class] aaURLStringByInjectingAlterAPI:URLString];
+    }
 	return [self aaInitWithString:URLString relativeToURL:baseURL];
 }
 
@@ -111,9 +113,13 @@ static NSMutableSet			*aaExcludedPathsSet		= nil;
 			// pid - project id
 			// did - device id
 			// dname - device display name
-			NSString *displayName = [[[UIDevice currentDevice] name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            // OS - devise OS version;
+            
+            NSString *osName = [[NSString stringWithFormat:@"%@ %@",[UIDevice currentDevice].systemName ,[UIDevice currentDevice].systemVersion] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+           NSString *displayName = [[[UIDevice currentDevice] name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 			NSString *deviceId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
-			urlString = [NSString stringWithFormat:@"%@/pid/%@/did/%@/dname/%@/url/%@", aaAlterAPIRequestURL, [NSURL aaProjectId], deviceId, displayName, urlString];
+            
+            urlString = [NSString stringWithFormat:@"%@/pid/%@/did/%@/dname/%@/os/%@/url/%@", aaAlterAPIRequestURL, [NSURL aaProjectId], deviceId, displayName, osName, urlString];
 		}
 	}
 	return urlString;
