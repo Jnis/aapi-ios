@@ -10,8 +10,10 @@
 #import <objc/runtime.h>
 #import <AdSupport/AdSupport.h>
 
+NSString *const NSURLAlterAPIKey					= @"NSURLAlterAPIKey";
+
 // temporary local address
-static NSString             *aaAlterAPIRequestURL	= @"http://10.0.1.17:3000/request";
+static NSString				*aaRequestAPI			= @"aapi.io/request";
 
 // global variables
 static NSString             *aaProjectId			= nil;
@@ -66,6 +68,26 @@ static NSMutableSet			*aaExcludedPathsSet		= nil;
 	return aaProjectId;
 }
 
+#pragma mark - properties
+
+- (void)aaMarkAsInjected {
+#if !__has_feature(objc_arc)
+    objc_setAssociatedObject(self, NSURLAlterAPIKey, [NSNumber numberWithBool:YES], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+#else
+    objc_setAssociatedObject(self, (__bridge const void *)(NSURLAlterAPIKey), [NSNumber numberWithBool:YES], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+#endif
+}
+
+- (BOOL)aaIsInjected {
+#if !__has_feature(objc_arc)
+	NSNumber *inj = objc_getAssociatedObject(self, NSURLAlterAPIKey);
+    return [inj boolValue];
+#else
+    NSNumber *inj = objc_getAssociatedObject(self, (__bridge const void *)(NSURLAlterAPIKey));
+	return [inj boolValue];
+#endif
+}
+
 #pragma mark - swizzled constructors
 
 - (id)aaInitWithString:(NSString *)URLString relativeToURL:(NSURL *)baseURL {
@@ -94,8 +116,10 @@ static NSMutableSet			*aaExcludedPathsSet		= nil;
 }
 
 + (NSString *)aaURLStringByInjectingAlterAPI:(NSString *)urlString {
-	BOOL hasHTTPScheme = [urlString hasPrefix:@"http"] || [urlString hasPrefix:@"https"];
-	if (nil != aaProjectId && YES == hasHTTPScheme && NO == [urlString hasPrefix: aaAlterAPIRequestURL]) {
+	BOOL hasHTTPScheme = [urlString hasPrefix:@"http"];
+	BOOL hasHTTPSScheme = [urlString hasPrefix:@"https"];
+	
+	if (nil != aaProjectId && (hasHTTPSScheme || hasHTTPScheme) && [urlString rangeOfString:aaRequestAPI].location == NSNotFound) {
 		NSURL *originalURL = [[NSURL alloc] aaInitWithString:urlString relativeToURL:nil];
 		BOOL isHostExcluded = [self aaIsHostExcluded:originalURL.host];
 		BOOL isPathExcluded = [self aaIsPathExcluded:originalURL.path];
@@ -113,7 +137,8 @@ static NSMutableSet			*aaExcludedPathsSet		= nil;
 			// dname - device display name
 			NSString *displayName = [[[UIDevice currentDevice] name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 			NSString *deviceId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
-			urlString = [NSString stringWithFormat:@"%@/pid/%@/did/%@/dname/%@/url/%@", aaAlterAPIRequestURL, [NSURL aaProjectId], deviceId, displayName, urlString];
+			NSString *scheme = hasHTTPScheme ? @"http" : @"https";
+			urlString = [NSString stringWithFormat:@"%@://%@/pid/%@/did/%@/dname/%@/url/%@", scheme, aaRequestAPI, [NSURL aaProjectId], deviceId, displayName, urlString];
 		}
 	}
 	return urlString;
