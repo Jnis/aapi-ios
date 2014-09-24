@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 
 // Category for AAPI integration
-// More information available at: http://aapi.io or http://alterapi.com
-// Requires AdSupport.framework
+// More information available at: http://aapi.io
+// Supports both http and https
 
 @interface NSURL (AlterAPI)
 
@@ -22,13 +22,14 @@
 // return project id
 + (NSString *)aaProjectId;
 
-// exclude hosts from aapi service
-// checking rule: host hasPrefix :excludedHost
-+ (void)aaExcludeHosts:(NSString *)hosts, ... NS_REQUIRES_NIL_TERMINATION;
+// excludes URLs from aapi
+// checking rule: [url hasPrefix]
+// example:
+// [NSURL aaaaExcludeURLs:@"http://google.com", @"https://somedomain.org/path/"];
+// Then any URL started with provided params will be ignored
++ (void)aaExcludeURLs:(NSString *)urls, ... NS_REQUIRES_NIL_TERMINATION;
 
-// exclude specific paths from aapi service
-// checking rule: path hasPrefix :excludedPath
-// for example - you can exclude paths where you post secure data (login / password pair, etc)
-+ (void)aaExcludePaths:(NSString *)paths, ... NS_REQUIRES_NIL_TERMINATION;
+// returns YES if URL contains aapi URL
+@property (nonatomic, readonly) BOOL			aaIsInjected;
 
 @end

@@ -8,7 +8,7 @@
 
 #import "NSURL+AlterAPI.h"
 #import <objc/runtime.h>
-#import <AdSupport/AdSupport.h>
+#import <UIKit/UIKit.h>
 
 NSString *const NSURLAlterAPIKey					= @"NSURLAlterAPIKey";
 
@@ -17,42 +17,27 @@ static NSString				*aaRequestAPI			= @"aapi.io/request";
 
 // global variables
 static NSString             *aaProjectId			= nil;
-static NSMutableSet			*aaExcludedHostsSet		= nil;
-static NSMutableSet			*aaExcludedPathsSet		= nil;
+static NSMutableSet			*aaExcludedURLSet		= nil;
 
 @implementation NSURL (AlterAPI)
 
 #pragma mark - initialization
 
 + (void)load {
-	NSLog(@"%s", __PRETTY_FUNCTION__);
-	
-#ifdef DEBUG
-	aaExcludedHostsSet = [[NSMutableSet alloc] init];
-	aaExcludedPathsSet = [[NSMutableSet alloc] init];
+	aaExcludedURLSet = [NSMutableSet new];
 	
 	// swizzle NSURL constructors
 	// TODO: support relativeToURL: method
 	method_exchangeImplementations(class_getInstanceMethod(self, @selector(initWithString:relativeToURL:)), class_getInstanceMethod(self, @selector(aaInitWithString:relativeToURL:)));
-#endif
 }
 
 #pragma mark - public
 
-+ (void)aaExcludeHosts:(NSString *)hosts, ... NS_REQUIRES_NIL_TERMINATION {
++ (void)aaExcludeURLs:(NSString *)urls, ... NS_REQUIRES_NIL_TERMINATION {
 	va_list argsList;
-    va_start(argsList, hosts);
-    for (NSString *arg = hosts; arg != nil; arg = va_arg(argsList, NSString *)) {
-        [aaExcludedHostsSet addObject:arg];
-    }
-    va_end(argsList);
-}
-
-+ (void)aaExcludePaths:(NSString *)paths, ... NS_REQUIRES_NIL_TERMINATION {
-	va_list argsList;
-    va_start(argsList, paths);
-    for (NSString *arg = paths; arg != nil; arg = va_arg(argsList, NSString *)) {
-        [aaExcludedPathsSet addObject:arg];
+    va_start(argsList, urls);
+    for (NSString *arg = urls; arg != nil; arg = va_arg(argsList, NSString *)) {
+        [aaExcludedURLSet addObject:arg];
     }
     va_end(argsList);
 }
@@ -91,54 +76,45 @@ static NSMutableSet			*aaExcludedPathsSet		= nil;
 #pragma mark - swizzled constructors
 
 - (id)aaInitWithString:(NSString *)URLString relativeToURL:(NSURL *)baseURL {
-	URLString = [[self class] aaURLStringByInjectingAlterAPI:URLString];
-	return [self aaInitWithString:URLString relativeToURL:baseURL];
+	BOOL injected = NO;
+	URLString = [[self class] aaURLStringByInjectingAlterAPI:URLString injected:&injected];
+	NSURL *url = [self aaInitWithString:URLString relativeToURL:baseURL];
+	if (injected) {
+		[url aaMarkAsInjected];
+	}
+	return url;
 }
 
 #pragma mark - magic
 
-+ (BOOL)aaIsHostExcluded:(NSString *)host {
-	for (NSString *excludedHost in aaExcludedHostsSet) {
-		if ([host hasPrefix:excludedHost]) {
++ (BOOL)aaIsURLExcluded:(NSString *)url {
+	for (NSString *excludedHost in aaExcludedURLSet) {
+		if ([url hasPrefix:excludedHost]) {
 			return YES;
 		}
 	}
 	return NO;
 }
 
-+ (BOOL)aaIsPathExcluded:(NSString *)path {
-	for (NSString *excludedPath in aaExcludedPathsSet) {
-		if ([path hasPrefix:excludedPath]) {
-			return YES;
-		}
-	}
-	return NO;
-}
-
-+ (NSString *)aaURLStringByInjectingAlterAPI:(NSString *)urlString {
++ (NSString *)aaURLStringByInjectingAlterAPI:(NSString *)urlString injected:(BOOL *)injected {
 	BOOL hasHTTPScheme = [urlString hasPrefix:@"http"];
 	BOOL hasHTTPSScheme = [urlString hasPrefix:@"https"];
 	
+	*injected = NO;
 	if (nil != aaProjectId && (hasHTTPSScheme || hasHTTPScheme) && [urlString rangeOfString:aaRequestAPI].location == NSNotFound) {
-		NSURL *originalURL = [[NSURL alloc] aaInitWithString:urlString relativeToURL:nil];
-		BOOL isHostExcluded = [self aaIsHostExcluded:originalURL.host];
-		BOOL isPathExcluded = [self aaIsPathExcluded:originalURL.path];
-#if !__has_feature(objc_arc)
-		[originalURL release];
-		originalURL = nil;
-#endif
-		
-		if (isPathExcluded || isHostExcluded) {
-			// do nothing!
-		} else {
+		BOOL isExcluded = [self aaIsURLExcluded:urlString];
+		if (!isExcluded) {
 			// do the magic
 			// pid - project id
 			// did - device id
 			// dname - device display name
+			// url - original URL
 			NSString *displayName = [[[UIDevice currentDevice] name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-			NSString *deviceId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+			NSString *deviceId = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
 			NSString *scheme = hasHTTPScheme ? @"http" : @"https";
 			urlString = [NSString stringWithFormat:@"%@://%@/pid/%@/did/%@/dname/%@/url/%@", scheme, aaRequestAPI, [NSURL aaProjectId], deviceId, displayName, urlString];
+			
+			*injected = YES;
 		}
 	}
 	return urlString;

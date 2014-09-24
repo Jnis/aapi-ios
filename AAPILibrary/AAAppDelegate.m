@@ -23,14 +23,15 @@
 	NSURL *url = [NSURL URLWithString:originalURLString];
 	NSLog(@"url == %@", url);
 	
+	NSURL *url2 = [NSURL URLWithString:url.absoluteString];
+	NSLog(@"url == %@", url2);
+	
 	// 2. exclude host
-	[NSURL aaExcludeHosts:@"moqod.com", nil];
+	[NSURL aaExcludeURLs:@"http://moqod.com", nil];
 	url = [NSURL URLWithString:originalURLString];
-	NSLog(@"url == %@", url);
 
 	// 3. exclude path
-	originalURLString = @"http://moqod2.com/users/authorization";
-	[NSURL aaExcludePaths:@"/users/authorization", nil];
+	originalURLString = @"http://moqod.com/users/authorization";
 	url = [NSURL URLWithString:originalURLString];
 	NSLog(@"url == %@", url);
 	
