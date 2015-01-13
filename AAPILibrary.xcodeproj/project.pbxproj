@@ -14,23 +14,8 @@
 		521FDC08190132CA00C93914 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 521FDC07190132CA00C93914 /* main.m */; };
 		521FDC0C190132CA00C93914 /* AAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 521FDC0B190132CA00C93914 /* AAAppDelegate.m */; };
 		521FDC0E190132CA00C93914 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 521FDC0D190132CA00C93914 /* Images.xcassets */; };
-		521FDC15190132CA00C93914 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 521FDC14190132CA00C93914 /* XCTest.framework */; };
-		521FDC16190132CB00C93914 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 521FDBFB190132CA00C93914 /* Foundation.framework */; };
-		521FDC17190132CB00C93914 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 521FDBFF190132CA00C93914 /* UIKit.framework */; };
-		521FDC1F190132CB00C93914 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 521FDC1D190132CB00C93914 /* InfoPlist.strings */; };
-		521FDC21190132CB00C93914 /* AAPILibraryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 521FDC20190132CB00C93914 /* AAPILibraryTests.m */; };
-		521FDC2D1901331500C93914 /* NSURL+AlterAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 521FDC2C1901331500C93914 /* NSURL+AlterAPI.m */; };
+		52AD69681A651C640031A08B /* NSURL+AlterAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 52AD69671A651C640031A08B /* NSURL+AlterAPI.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		521FDC18190132CB00C93914 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 521FDBF0190132CA00C93914 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 521FDBF7190132CA00C93914;
-			remoteInfo = AAPILibrary;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		521FDBF8190132CA00C93914 /* AAPILibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AAPILibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,14 +29,8 @@
 		521FDC0A190132CA00C93914 /* AAAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAAppDelegate.h; sourceTree = "<group>"; };
 		521FDC0B190132CA00C93914 /* AAAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAAppDelegate.m; sourceTree = "<group>"; };
 		521FDC0D190132CA00C93914 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		521FDC13190132CA00C93914 /* AAPILibraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AAPILibraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		521FDC14190132CA00C93914 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		521FDC1C190132CB00C93914 /* AAPILibraryTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AAPILibraryTests-Info.plist"; sourceTree = "<group>"; };
-		521FDC1E190132CB00C93914 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		521FDC20190132CB00C93914 /* AAPILibraryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPILibraryTests.m; sourceTree = "<group>"; };
-		521FDC2B1901331500C93914 /* NSURL+AlterAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+AlterAPI.h"; sourceTree = "<group>"; };
-		521FDC2C1901331500C93914 /* NSURL+AlterAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+AlterAPI.m"; sourceTree = "<group>"; };
-		521FDC2E19013C1000C93914 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		52AD69661A651C640031A08B /* NSURL+AlterAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+AlterAPI.h"; sourceTree = "<group>"; };
+		52AD69671A651C640031A08B /* NSURL+AlterAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+AlterAPI.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,16 +44,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		521FDC10190132CA00C93914 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				521FDC15190132CA00C93914 /* XCTest.framework in Frameworks */,
-				521FDC17190132CB00C93914 /* UIKit.framework in Frameworks */,
-				521FDC16190132CB00C93914 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -82,7 +51,6 @@
 			isa = PBXGroup;
 			children = (
 				521FDC01190132CA00C93914 /* AAPILibrary */,
-				521FDC1A190132CB00C93914 /* AAPILibraryTests */,
 				521FDBFA190132CA00C93914 /* Frameworks */,
 				521FDBF9190132CA00C93914 /* Products */,
 			);
@@ -92,7 +60,6 @@
 			isa = PBXGroup;
 			children = (
 				521FDBF8190132CA00C93914 /* AAPILibrary.app */,
-				521FDC13190132CA00C93914 /* AAPILibraryTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -100,11 +67,9 @@
 		521FDBFA190132CA00C93914 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				521FDC2E19013C1000C93914 /* AdSupport.framework */,
 				521FDBFB190132CA00C93914 /* Foundation.framework */,
 				521FDBFD190132CA00C93914 /* CoreGraphics.framework */,
 				521FDBFF190132CA00C93914 /* UIKit.framework */,
-				521FDC14190132CA00C93914 /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -112,7 +77,7 @@
 		521FDC01190132CA00C93914 /* AAPILibrary */ = {
 			isa = PBXGroup;
 			children = (
-				521FDC2A190132EE00C93914 /* Classes */,
+				52AD69651A651C640031A08B /* aapi-ios */,
 				521FDC0A190132CA00C93914 /* AAAppDelegate.h */,
 				521FDC0B190132CA00C93914 /* AAAppDelegate.m */,
 				521FDC0D190132CA00C93914 /* Images.xcassets */,
@@ -132,31 +97,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		521FDC1A190132CB00C93914 /* AAPILibraryTests */ = {
+		52AD69651A651C640031A08B /* aapi-ios */ = {
 			isa = PBXGroup;
 			children = (
-				521FDC20190132CB00C93914 /* AAPILibraryTests.m */,
-				521FDC1B190132CB00C93914 /* Supporting Files */,
+				52AD69661A651C640031A08B /* NSURL+AlterAPI.h */,
+				52AD69671A651C640031A08B /* NSURL+AlterAPI.m */,
 			);
-			path = AAPILibraryTests;
-			sourceTree = "<group>";
-		};
-		521FDC1B190132CB00C93914 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				521FDC1C190132CB00C93914 /* AAPILibraryTests-Info.plist */,
-				521FDC1D190132CB00C93914 /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		521FDC2A190132EE00C93914 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				521FDC2B1901331500C93914 /* NSURL+AlterAPI.h */,
-				521FDC2C1901331500C93914 /* NSURL+AlterAPI.m */,
-			);
-			path = Classes;
+			path = "aapi-ios";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,24 +126,6 @@
 			productReference = 521FDBF8190132CA00C93914 /* AAPILibrary.app */;
 			productType = "com.apple.product-type.application";
 		};
-		521FDC12190132CA00C93914 /* AAPILibraryTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 521FDC27190132CB00C93914 /* Build configuration list for PBXNativeTarget "AAPILibraryTests" */;
-			buildPhases = (
-				521FDC0F190132CA00C93914 /* Sources */,
-				521FDC10190132CA00C93914 /* Frameworks */,
-				521FDC11190132CA00C93914 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				521FDC19190132CB00C93914 /* PBXTargetDependency */,
-			);
-			name = AAPILibraryTests;
-			productName = AAPILibraryTests;
-			productReference = 521FDC13190132CA00C93914 /* AAPILibraryTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -206,11 +135,6 @@
 				CLASSPREFIX = AA;
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Moqod;
-				TargetAttributes = {
-					521FDC12190132CA00C93914 = {
-						TestTargetID = 521FDBF7190132CA00C93914;
-					};
-				};
 			};
 			buildConfigurationList = 521FDBF3190132CA00C93914 /* Build configuration list for PBXProject "AAPILibrary" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -225,7 +149,6 @@
 			projectRoot = "";
 			targets = (
 				521FDBF7190132CA00C93914 /* AAPILibrary */,
-				521FDC12190132CA00C93914 /* AAPILibraryTests */,
 			);
 		};
 /* End PBXProject section */
@@ -240,14 +163,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		521FDC11190132CA00C93914 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				521FDC1F190132CB00C93914 /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -255,43 +170,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				521FDC2D1901331500C93914 /* NSURL+AlterAPI.m in Sources */,
+				52AD69681A651C640031A08B /* NSURL+AlterAPI.m in Sources */,
 				521FDC0C190132CA00C93914 /* AAAppDelegate.m in Sources */,
 				521FDC08190132CA00C93914 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		521FDC0F190132CA00C93914 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				521FDC21190132CB00C93914 /* AAPILibraryTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		521FDC19190132CB00C93914 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 521FDBF7190132CA00C93914 /* AAPILibrary */;
-			targetProxy = 521FDC18190132CB00C93914 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		521FDC04190132CA00C93914 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				521FDC05190132CA00C93914 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		521FDC1D190132CB00C93914 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				521FDC1E190132CB00C93914 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -395,46 +286,6 @@
 			};
 			name = Release;
 		};
-		521FDC28190132CB00C93914 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/AAPILibrary.app/AAPILibrary";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "AAPILibrary/AAPILibrary-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "AAPILibraryTests/AAPILibraryTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		521FDC29190132CB00C93914 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/AAPILibrary.app/AAPILibrary";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "AAPILibrary/AAPILibrary-Prefix.pch";
-				INFOPLIST_FILE = "AAPILibraryTests/AAPILibraryTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -452,15 +303,6 @@
 			buildConfigurations = (
 				521FDC25190132CB00C93914 /* Debug */,
 				521FDC26190132CB00C93914 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		521FDC27190132CB00C93914 /* Build configuration list for PBXNativeTarget "AAPILibraryTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				521FDC28190132CB00C93914 /* Debug */,
-				521FDC29190132CB00C93914 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

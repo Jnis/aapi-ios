@@ -8,7 +8,6 @@
 
 #import "NSURL+AlterAPI.h"
 #import <objc/runtime.h>
-#import <UIKit/UIKit.h>
 
 NSString *const NSURLAlterAPIKey					= @"NSURLAlterAPIKey";
 
@@ -96,6 +95,29 @@ static NSMutableSet			*aaExcludedURLSet		= nil;
 	return NO;
 }
 
++ (NSString *)aaQueryParamsStringForURL:(NSString *)url {
+	NSMutableDictionary *queryDict = [NSMutableDictionary dictionary];
+	[queryDict setValue:[self aaProjectId] forKey:@"pid"];	// pid could be changed
+	
+	static NSMutableDictionary *deviceParams = nil;
+	if (!deviceParams) {
+		deviceParams = [NSMutableDictionary dictionary];
+		[deviceParams setValue:[[UIDevice currentDevice] name] forKey:@"dname"];
+		[deviceParams setValue:[[UIDevice currentDevice] model] forKey:@"model"];
+		[deviceParams setValue:[[UIDevice currentDevice] systemName] forKey:@"os"];
+		[deviceParams setValue:[[UIDevice currentDevice] systemVersion] forKey:@"osv"];
+		[deviceParams setValue:[[[UIDevice currentDevice] identifierForVendor] UUIDString] forKey:@"did"];
+	}
+	[queryDict addEntriesFromDictionary:deviceParams];
+
+	NSMutableString *queryString = [NSMutableString string];
+	for (NSString *key in queryDict.allKeys) {
+		[queryString appendFormat:@"/%@/%@", key, [queryDict[key] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	}
+	[queryString appendFormat:@"/url/%@", url];
+	return queryString;
+}
+
 + (NSString *)aaURLStringByInjectingAlterAPI:(NSString *)urlString injected:(BOOL *)injected {
 	BOOL hasHTTPScheme = [urlString hasPrefix:@"http"];
 	BOOL hasHTTPSScheme = [urlString hasPrefix:@"https"];
@@ -104,16 +126,20 @@ static NSMutableSet			*aaExcludedURLSet		= nil;
 	if (nil != aaProjectId && (hasHTTPSScheme || hasHTTPScheme) && [urlString rangeOfString:aaRequestAPI].location == NSNotFound) {
 		BOOL isExcluded = [self aaIsURLExcluded:urlString];
 		if (!isExcluded) {
-			// do the magic
-			// pid - project id
+			// aapi parameters:
+			// @required
+			// pid — project id
 			// did - device id
-			// dname - device display name
-			// url - original URL
-			NSString *displayName = [[[UIDevice currentDevice] name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-			NSString *deviceId = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+			// url - original url
+			//
+			// @optional
+			// dname - display name
+			// os - OS name
+			// osv - OS version
+			// model - device model name (iPod Touch, etc)
+			// type - not used at the moment
 			NSString *scheme = hasHTTPScheme ? @"http" : @"https";
-			urlString = [NSString stringWithFormat:@"%@://%@/pid/%@/did/%@/dname/%@/url/%@", scheme, aaRequestAPI, [NSURL aaProjectId], deviceId, displayName, urlString];
-			
+			urlString = [NSString stringWithFormat:@"%@://%@%@", scheme, aaRequestAPI, [self aaQueryParamsStringForURL:urlString]];
 			*injected = YES;
 		}
 	}
