@@ -52,6 +52,9 @@ static NSMutableSet			*aaExcludedURLSet		= nil;
 
 // default is aapi.io/request
 + (void)setAaRequestURL:(NSString *)requestURL {
+#if !__has_feature(objc_arc)
+	[aaRequestURL autorelease];
+#endif
 	aaRequestURL = [requestURL copy];
 }
 
@@ -110,7 +113,7 @@ static NSMutableSet			*aaExcludedURLSet		= nil;
 	
 	static NSMutableDictionary *deviceParams = nil;
 	if (!deviceParams) {
-		deviceParams = [NSMutableDictionary dictionary];
+		deviceParams = [NSMutableDictionary new];
 		[deviceParams setValue:[[UIDevice currentDevice] name] forKey:@"dname"];
 		[deviceParams setValue:[[UIDevice currentDevice] model] forKey:@"model"];
 		[deviceParams setValue:[[UIDevice currentDevice] systemName] forKey:@"os"];
