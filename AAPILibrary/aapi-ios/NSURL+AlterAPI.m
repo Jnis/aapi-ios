@@ -11,11 +11,9 @@
 
 NSString *const NSURLAlterAPIKey					= @"NSURLAlterAPIKey";
 
-// temporary local address
-static NSString				*aaRequestAPI			= @"aapi.io/request";
-
 // global variables
 static NSString             *aaProjectId			= nil;
+static NSString             *aaRequestURL			= @"aapi.io/request";;
 static NSMutableSet			*aaExcludedURLSet		= nil;
 
 @implementation NSURL (AlterAPI)
@@ -51,6 +49,17 @@ static NSMutableSet			*aaExcludedURLSet		= nil;
 + (NSString *)aaProjectId {
 	return aaProjectId;
 }
+
+// default is aapi.io/request
++ (void)setAaRequestURL:(NSString *)requestURL {
+	aaRequestURL = [requestURL copy];
+}
+
+// default is aapi.io/request
++ (NSString *)aaRequestURL {
+	return aaRequestURL;
+}
+
 
 #pragma mark - properties
 
@@ -123,7 +132,7 @@ static NSMutableSet			*aaExcludedURLSet		= nil;
 	BOOL hasHTTPSScheme = [urlString hasPrefix:@"https"];
 	
 	*injected = NO;
-	if (nil != aaProjectId && (hasHTTPSScheme || hasHTTPScheme) && [urlString rangeOfString:aaRequestAPI].location == NSNotFound) {
+	if (nil != aaProjectId && (hasHTTPSScheme || hasHTTPScheme) && [urlString rangeOfString:aaRequestURL].location == NSNotFound) {
 		BOOL isExcluded = [self aaIsURLExcluded:urlString];
 		if (!isExcluded) {
 			// aapi parameters:
@@ -139,7 +148,7 @@ static NSMutableSet			*aaExcludedURLSet		= nil;
 			// model - device model name (iPod Touch, etc)
 			// type - not used at the moment
 			NSString *scheme = hasHTTPScheme ? @"http" : @"https";
-			urlString = [NSString stringWithFormat:@"%@://%@%@", scheme, aaRequestAPI, [self aaQueryParamsStringForURL:urlString]];
+			urlString = [NSString stringWithFormat:@"%@://%@%@", scheme, aaRequestURL, [self aaQueryParamsStringForURL:urlString]];
 			*injected = YES;
 		}
 	}

@@ -14,6 +14,12 @@
 
 @interface NSURL (AlterAPI)
 
+// default is aapi.io/request
++ (void)setAaRequestURL:(NSString *)requestURL;
+
+// default is aapi.io/request
++ (NSString *)aaRequestURL;
+
 // sets aapi project id
 // if aapi project is nil then no modifications on url applied
 // copies given projectId
