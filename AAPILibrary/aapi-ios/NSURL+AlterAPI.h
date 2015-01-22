@@ -35,6 +35,10 @@
 // Then any URL started with provided params will be ignored
 + (void)aaExcludeURLs:(NSString *)urls, ... NS_REQUIRES_NIL_TERMINATION;
 
+// includes only for these urls. By default includes every urls
+// checking rule: [url hasPrefix]
++ (void)aaIncludeURLs:(NSString *)urls, ... NS_REQUIRES_NIL_TERMINATION;
+
 // returns YES if URL contains aapi URL
 @property (nonatomic, readonly) BOOL			aaIsInjected;
 

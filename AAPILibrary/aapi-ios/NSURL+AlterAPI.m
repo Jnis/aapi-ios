@@ -15,6 +15,7 @@ NSString *const NSURLAlterAPIKey					= @"NSURLAlterAPIKey";
 static NSString             *aaProjectId			= nil;
 static NSString             *aaRequestURL			= @"aapi.io/request";;
 static NSMutableSet			*aaExcludedURLSet		= nil;
+static NSMutableSet			*aaIncludedURLSet		= nil;
 
 @implementation NSURL (AlterAPI)
 
@@ -22,6 +23,7 @@ static NSMutableSet			*aaExcludedURLSet		= nil;
 
 + (void)load {
 	aaExcludedURLSet = [NSMutableSet new];
+    aaIncludedURLSet = [NSMutableSet new];
 	
 	// swizzle NSURL constructors
 	// TODO: support relativeToURL: method
@@ -35,6 +37,15 @@ static NSMutableSet			*aaExcludedURLSet		= nil;
     va_start(argsList, urls);
     for (NSString *arg = urls; arg != nil; arg = va_arg(argsList, NSString *)) {
         [aaExcludedURLSet addObject:arg];
+    }
+    va_end(argsList);
+}
+
++ (void)aaIncludeURLs:(NSString *)urls, ... NS_REQUIRES_NIL_TERMINATION {
+    va_list argsList;
+    va_start(argsList, urls);
+    for (NSString *arg = urls; arg != nil; arg = va_arg(argsList, NSString *)) {
+        [aaIncludedURLSet addObject:arg];
     }
     va_end(argsList);
 }
@@ -99,6 +110,19 @@ static NSMutableSet			*aaExcludedURLSet		= nil;
 #pragma mark - magic
 
 + (BOOL)aaIsURLExcluded:(NSString *)url {
+    if(aaIncludedURLSet.count){
+        BOOL isExistInList = NO;
+        for (NSString *excludedHost in aaIncludedURLSet) {
+            if ([url hasPrefix:excludedHost]) {
+                isExistInList = YES;
+                break;
+            }
+        }
+        if(!isExistInList){
+            return YES;
+        }
+    }
+    
 	for (NSString *excludedHost in aaExcludedURLSet) {
 		if ([url hasPrefix:excludedHost]) {
 			return YES;
